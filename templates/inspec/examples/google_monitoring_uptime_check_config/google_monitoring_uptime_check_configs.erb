@@ -1,0 +1,6 @@
+<% gcp_project_id = "#{external_attribute('gcp_project_id', doc_generation)}" -%>
+<% http_uptime_check = grab_attributes['http_uptime_check'] -%>
+describe google_monitoring_uptime_check_configs(project: <%= gcp_project_id -%>) do
+  its('count') { should be >= 1 }
+  its('timeouts') { should include <%= doc_generation ? "'#{http_uptime_check['timeout']}'" : "http_uptime_check['timeout']" -%> }
+end

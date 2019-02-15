@@ -106,6 +106,10 @@ variable "bigquery_table" {
   type = "map"
 }
 
+variable "http_uptime_check" {
+  type = "map"
+}
+
 resource "google_compute_ssl_policy" "custom-ssl-policy" {
   name            = "${var.ssl_policy["name"]}"
   min_tls_version = "${var.ssl_policy["min_tls_version"]}"
@@ -433,4 +437,19 @@ resource "google_bigquery_table" "gcp-inspec-bigquery-table" {
 
   description = "${var.bigquery_table["description"]}"
   expiration_time = "${var.bigquery_table["expiration_time"]}"
+}
+
+resource "google_monitoring_uptime_check_config" "gcp-inspec-http-uptime-check" {
+  project = "${var.gcp_project_id}"
+  display_name = "${var.http_uptime_check["display_name"]}"
+  timeout = "${var.http_uptime_check["timeout"]}"
+
+  http_check {
+    path = "${var.http_uptime_check["http_check_path"]}"
+    port = "${var.http_uptime_check["http_check_port"]}"
+  }
+
+  content_matchers {
+    content = "${var.http_uptime_check["content_matcher_content"]}"
+  }
 }

@@ -184,3 +184,10 @@ bigquery_table:
   description: A BigQuery table
   expiration_time: 1738882264000
   time_partitioning_type: DAY
+
+http_uptime_check:
+  display_name: http-uptime-check
+  timeout: 60s
+  http_check_path: /some-path
+  http_check_port: 8010
+  content_matcher_content: example

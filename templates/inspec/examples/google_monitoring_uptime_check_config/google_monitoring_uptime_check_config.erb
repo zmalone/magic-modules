@@ -1,0 +1,13 @@
+<% gcp_project_id = "#{external_attribute('gcp_project_id', doc_generation)}" -%>
+<% http_uptime_check = grab_attributes['http_uptime_check'] -%>
+describe google_monitoring_uptime_check_config(project: <%= gcp_project_id -%>, name: <%= doc_generation ? "'#{http_uptime_check['display_name']}'" : "http_uptime_check['display_name']" -%>) do
+  it { should exist }
+  its('timeout') { should eq <%= doc_generation ? "'#{http_uptime_check['timeout']}'" : "http_uptime_check['timeout']" -%> }
+  its('http_check.path') { should eq <%= doc_generation ? "'#{http_uptime_check['http_check_path']}'" : "http_uptime_check['http_check_path']" -%> }
+  its('http_check.port') { should eq <%= doc_generation ? "'#{http_uptime_check['http_check_port']}'" : "http_uptime_check['http_check_port']" -%> }
+  its('content_matchers.first.content') { should eq <%= doc_generation ? "'#{http_uptime_check['content_matcher_content']}'" : "http_uptime_check['content_matcher_content']" -%> }
+end
+
+describe google_monitoring_uptime_check_config(project: <%= gcp_project_id -%>, name: 'nonexistent') do
+  it { should_not exist }
+end
