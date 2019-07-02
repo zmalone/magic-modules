@@ -278,7 +278,7 @@ module Provider
 
       def compile_datasource(data)
         target_folder = data.output_folder
-        name = "#{module_name(data.object)}"
+        name = module_name(data.object)
         data.generate('templates/ansible/facts.erb',
                       File.join(target_folder,
                                 "lib/ansible/modules/cloud/google/#{name}_info.py"),
@@ -287,7 +287,6 @@ module Provider
         # Generate symlink for old `facts` modules.
         File.symlink "#{name}_info.py",
                      "build/ansible/lib/ansible/modules/cloud/google/#{name}_facts.py"
-
       end
 
       def generate_objects(output_folder, types, version_name)
